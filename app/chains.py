@@ -5,27 +5,16 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
 from dotenv import load_dotenv
 
-# Load environment variables from .env file (for local development)
-load_dotenv()
 
+
+load_dotenv()
 class Chain:
     def __init__(self):
-        # Try to get API key from environment variable first (local .env)
-        api_key = os.getenv("GROQ_API_KEY")
-        
-        # If not found, try Streamlit secrets (for cloud deployment)
-        if not api_key:
-            try:
-                import streamlit as st
-                api_key = st.secrets["GROQ_API_KEY"]
-            except:
-                raise ValueError("GROQ_API_KEY not found in environment variables or Streamlit secrets")
-        
         self.llm=ChatGroq(
-            temperature=0,
-            groq_api_key=api_key,
-            model_name='llama3-70b-8192'
-        )
+        temperature=0,
+        groq_api_key=os.getenv("GROQ_API_KEY"),
+        model_name='llama3-70b-8192'
+    )
 
     def extract_jobs(self,cleaned_text):
         prompt_extract=PromptTemplate.from_template(
