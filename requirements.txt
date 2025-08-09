@@ -6,5 +6,4 @@ streamlit
 pandas
 numpy
 faiss-cpu
-sentence-transformers
 bs4

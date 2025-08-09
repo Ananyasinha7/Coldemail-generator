@@ -1,7 +1,7 @@
 import pandas as pd
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import FakeEmbeddings
 import uuid
 
 class Portfolio:
@@ -9,7 +9,7 @@ class Portfolio:
         self.file_path=file_path
         self.data=pd.read_csv(file_path)
         
-      
+   
         documents = []
         for _, row in self.data.iterrows():
             doc = Document(
@@ -18,8 +18,8 @@ class Portfolio:
             )
             documents.append(doc)
         
- 
-        embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+        embeddings = FakeEmbeddings(size=1536) 
         self.vectorstore = FAISS.from_documents(documents, embeddings)
 
     def load_portfolio(self):
